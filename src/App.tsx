@@ -1,6 +1,7 @@
 import './App.css'
 
 import  { gql, useQuery } from '@apollo/client'
+import { ReactYuzuDemoQuery } from './types';
 
 const query = gql`
   query ReactYuzuDemo($securitySymbols: [String!]!, $cryptoSymbols: [String!]!) {
@@ -44,7 +45,7 @@ const defaultCryptos = [
 ]
 
 function App() {
-  const { data, loading } = useQuery(query, {
+  const { data, loading } = useQuery<ReactYuzuDemoQuery>(query, {
     variables: {
       cryptoSymbols: defaultCryptos,
       securitySymbols: defaultSecurities,
@@ -65,16 +66,16 @@ function App() {
         </tr>
       </thead>
       <tbody>
-        {data.securities.map(({symbol, lastTrade}) => (
+        {data?.securities.map(({symbol, lastTrade}) => (
           <tr>
             <td>{symbol}</td>
-            <td>${lastTrade.price}</td>
+            <td>${lastTrade?.price}</td>
           </tr>
         ))}
-        {data.cryptoTradingPairs.map(({symbol, lastTrade}) => (
+        {data?.cryptoTradingPairs.map(({symbol, lastTrade}) => (
           <tr>
             <td>{symbol}</td>
-            <td>${lastTrade.price}</td>
+            <td>${lastTrade?.price}</td>
           </tr>
         ))}
       </tbody>
@@ -82,4 +83,4 @@ function App() {
   )
 }
 
-export default App 
+export default App;
